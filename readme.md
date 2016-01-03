@@ -16,7 +16,7 @@ That is where Throw in the Towel joins the show. It is basically just what you g
 ## Usage
 This library is not intended to be used via npm with webpack/browserify/etc.
 
-It is actually intended to be the polar opposite: 
+It is actually intended to be the polar opposite:
 
 1. Reference the script from a cdn
 2. Start writing code in `<script type="text/babel"></script>` tags
@@ -30,8 +30,7 @@ At some point you'll want to remove this script and set up a proper build proces
   <head>
     <meta charset="utf-8">
     <title></title>
-    <script src="https://npmcdn.com/throw-in-the-towel@1.1" charset="utf-8"></script>
-    <script src="https://npmcdn.com/babel-standalone@1.0" charset="utf-8"></script>
+    <script src="https://npmcdn.com/throw-in-the-towel@2" charset="utf-8"></script>
     <script src="https://npmcdn.com/react@0.14.2/dist/react.js" charset="utf-8"></script>
     <script src="https://npmcdn.com/react-dom@0.14.2/dist/react-dom.js" charset="utf-8"></script>
     <script type="text/babel">
@@ -49,3 +48,7 @@ At some point you'll want to remove this script and set up a proper build proces
   </body>
 </html>
 ```
+
+---
+
+Thanks to @Daniel15 for getting babel-standalone working.

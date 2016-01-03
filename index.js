@@ -1,104 +1,105 @@
-(function(global) {
+var Babel = require('babel-core')
 
-  onReady(init)
+onReady(init)
 
-  function init() {
-    waitz(retrieve(locate()), reify))
-  }
+function init() {
+  waitz(retrieve(locate()), reify)
+}
 
-  function locate() {
-    return Array.prototype.slice.call(
-      document.querySelectorAll('script[type="text/babel"]')
-    )
-  }
+function locate() {
+  return Array.prototype.slice.call(
+    document.querySelectorAll('script[type="text/babel"]')
+  )
+}
 
-  function retrieve(scripts) {
-    return scripts.map(function (script) {
-      return !!script.src
-      ? load(script)
-      : extract(script)
-    })
-  }
+function retrieve(scripts) {
+  return scripts.map(function (script) {
+    return !!script.src
+    ? load(script)
+    : extract(script)
+  })
+}
 
-  function load(script) {
-    return function (next) {
-      loadUrl(script.src, function (source) {
-        next({
-          name: script.src,
-          source: source
-        })
-      })
-    }
-  }
-
-  function extract(script) {
-    return function (next) {
+function load(script) {
+  return function (next) {
+    loadUrl(script.src, function (source) {
       next({
-        name: 'inline',
-        source: script.innerHTML
+        name: script.src,
+        source: source
       })
-    }
-  }
-
-  function reify(scripts) {
-    return scripts.map(function (script) {
-      var opts = {
-        filename: script.name
-      }
-      opts.sourceMaps = "inline"
-      opts.presets = [ "react" ]
-      return new Function(Babel.transform(script.source, opts).code)()
     })
   }
+}
 
-
-
-  function onReady(init) {
-    if (global.addEventListener) {
-      global.addEventListener("DOMContentLoaded", init, false)
-    } else if (global.attachEvent) {
-      global.attachEvent("onload", init)
-    }
+function extract(script) {
+  return function (next) {
+    next({
+      name: 'inline',
+      source: script.innerHTML
+    })
   }
+}
 
-  function loadUrl(url, next) {
-    var request = new XMLHttpRequest()
-    request.open('GET', url, true)
-    request.onload = function () {
-      if (this.status >= 200 && this.status < 400) {
-        next(this.response)
-      } else {
-        console.log('Failed to load ' + url)
-        next()
-      }
+function reify(scripts) {
+  return scripts.map(function (script) {
+    var opts = {
+      filename: script.name
     }
-    request.onerror = function () {
+    opts.sourceMaps = "inline"
+    opts.plugins = [
+      require('babel-plugin-syntax-jsx'),
+      require('babel-plugin-transform-react-jsx')
+    ]
+    return new Function(Babel.transform(script.source, opts).code)()
+  })
+}
+
+
+
+function onReady(init) {
+  if (global.addEventListener) {
+    global.addEventListener("DOMContentLoaded", init, false)
+  } else if (global.attachEvent) {
+    global.attachEvent("onload", init)
+  }
+}
+
+function loadUrl(url, next) {
+  var request = new XMLHttpRequest()
+  request.open('GET', url, true)
+  request.onload = function () {
+    if (this.status >= 200 && this.status < 400) {
+      next(this.response)
+    } else {
       console.log('Failed to load ' + url)
       next()
     }
-    request.send(null)
+  }
+  request.onerror = function () {
+    console.log('Failed to load ' + url)
+    next()
+  }
+  request.send(null)
+}
+
+function waitz(tasks, callback) {
+
+  var results = []
+  if (!tasks.length) {
+    return callback(results)
   }
 
-  function waitz(tasks, callback) {
-
-    var results = []
-    if (!tasks.length) {
-      return callback(results)
-    }
-
-    function completed(index) {
-      return function (result) {
-        results[index] = result
-        if (results.length === tasks.length) {
-          callback(results)
-        }
+  function completed(index) {
+    return function (result) {
+      results[index] = result
+      if (results.length === tasks.length) {
+        callback(results)
       }
     }
-
-    tasks.forEach(function (task, i) {
-      task(completed(i))
-    })
-
   }
 
-}(window));
+  tasks.forEach(function (task, i) {
+    task(completed(i))
+  })
+
+}
