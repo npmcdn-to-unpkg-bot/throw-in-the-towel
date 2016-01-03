@@ -1,7 +1,7 @@
 {
   "name": "throw-in-the-towel",
   "version": "2.0.0",
-  "description": "Quick React Prototyping?",
+  "description": "A JSXTransformer Substitute",
   "main": "umd/throw-in-the-towel.js",
   "dependencies": {
     "babel-core": "^6.3.26",
