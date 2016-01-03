@@ -1,6 +1,6 @@
 {
   "name": "throw-in-the-towel",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Quick React Prototyping?",
   "main": "umd/throw-in-the-towel.js",
   "dependencies": {
