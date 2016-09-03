@@ -30,9 +30,9 @@ At some point you'll want to remove this script and set up a proper build proces
   <head>
     <meta charset="utf-8">
     <title></title>
-    <script src="https://npmcdn.com/throw-in-the-towel@2" charset="utf-8"></script>
-    <script src="https://npmcdn.com/react@0.14.2/dist/react.js" charset="utf-8"></script>
-    <script src="https://npmcdn.com/react-dom@0.14.2/dist/react-dom.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/throw-in-the-towel@2" charset="utf-8"></script>
+    <script src="https://unpkg.com/react@0.14.2/dist/react.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/react-dom@0.14.2/dist/react-dom.js" charset="utf-8"></script>
     <script type="text/babel">
     function Winner() {
       return <h1>Winning?</h1>
